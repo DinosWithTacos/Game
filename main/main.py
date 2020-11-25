@@ -19,14 +19,14 @@ pygame.display.set_icon(icon)
 
 # Player set up, starting pos and velocity
 playerX_pos = screenX / 2 
-playerY_pos = 0
+playerY_pos = 900
 playerX_pos_delta = 0
 playerY_pos_delta = 0
 playerSpeed = 5
 playerImg = pygame.image.load('images\daniel.png')
 
 font = pygame.font.SysFont(None, 24)
-img = font.render("fuck", True, (0, 0, 255))
+
 
 def player(x, y):
     screen.blit(icon, (x, y))
@@ -62,8 +62,10 @@ while RUNNING:
     if playerX_pos < screenX or playerX_pos > 0: # checks player is out of bounds
         playerX_pos += playerX_pos_delta
         playerY_pos += playerY_pos_delta
-        print("PlayerX:", playerX_pos, "w/ delta", playerX_pos_delta)
-        print("PlayerY:", playerY_pos, "w/ delta", playerY_pos_delta)
+        pos_update = str(("PlayerX:", playerX_pos, "w/ delta", playerX_pos_delta))
+        img = font.render(pos_update, True, (0, 0, 255))
+        """        print("PlayerX:", playerX_pos, "w/ delta", playerX_pos_delta)
+        print("PlayerY:", playerY_pos, "w/ delta", playerY_pos_delta)"""
 
     player(playerX_pos, playerY_pos)
 
