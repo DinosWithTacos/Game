@@ -1,3 +1,1 @@
-# Game
-
-This is main dir.
+I guess this is a fucking side scroller now.
