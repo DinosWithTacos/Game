@@ -30,22 +30,34 @@ playerY_pos = 900
 playerX_pos_delta = 0
 playerY_pos_delta = 0
 playerSpeed = 5
-playerImg = pygame.image.load('images\daniel.png')
+
+
+
+def scale(Sur, Sclar):
+    return pygame.transform.scale(Sur, (Sclar, Sclar))
+
+playerImg = scale(pygame.image.load('images\daniel.png'), 100)
+
+evil_fuck_img = scale(pygame.image.load("images\weathin.png"), 100)
 
 font = pygame.font.SysFont(None, 24)
 
+
 def player(x, y):
-    screen.blit(icon, (x, y))
+    screen.blit(playerImg, (x, y))
 
 def jump():
     print("i jumped")
 
 
+def weathen(x, y):
+
+    screen.blit(evil_fuck_img, (x, y))
 
 # Game loop
 RUNNING = True
 while RUNNING:
-    screen.fill((0, 0, 0)) # Back ground color.
+    screen.fill((200, 200, 200)) # Back ground color.
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # If quit is pressed in the upper left
@@ -79,7 +91,10 @@ while RUNNING:
         debug_txt = font.render(str(playerX_pos), True, (0, 0, 255))
 
 
-    player(playerX_pos, playerY_pos)
+    player(playerX_pos, playerY_pos) # Places our player
+    weathen(20, 20)
 
-    screen.blit(debug_txt, (0, 0))
+
+
+    screen.blit(debug_txt, (900, 0))
     pygame.display.update()
