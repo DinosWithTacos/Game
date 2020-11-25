@@ -1,18 +1,37 @@
-while True:
-    answer = input("Do you like the winter? ")
+import pygame
+"""
+Uhh.
+"""
 
-    y_list = ['y', 'yes', 'sure', 'yea']
-    n_list = ['n', 'no', 'nope', 'nada']
+# Initialize pygame
+pygame.init()
 
-    answer = answer.lower()
+# Set initial screen size
+screen = pygame.display.set_mode((800, 600))
 
-    if answer in y_list:
-        print("Yes fucking amazing fuck.")
-        break
-    elif answer in n_list:
-        print('fuck off')
-        break
-    else:
-        print("what did you say")
+# Title and icons and stuff
+pygame.display.set_caption("This is a test currently.")
+icon = pygame.image.load('daniel.png')
+
+pygame.display.set_icon(icon)
+
+# Player set up
+playerX = 370
+playerY = 480
+playerImg = icon
+
+def player():
+    screen.blit(icon, (playerX, playerY))
+
+# Game loop
+RUNNING = True
+while RUNNING:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            RUNNING = False
 
 
+    screen.fill((180, 180, 180))
+
+    player()
+    pygame.display.update()
