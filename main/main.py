@@ -47,13 +47,9 @@ while RUNNING:
                 playerX_delta += playerSpeed
 
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_w:
+            if event.key == pygame.K_w or event.key == pygame.K_s:
                 playerY_delta = 0
-            if event.key  == pygame.K_s:
-                playerY_delta = 0
-            if event.key == pygame.K_a:
-                playerX_delta = 0
-            if event.key == pygame.K_d:
+            if event.key == pygame.K_a or event.key == pygame.K_d:
                 playerX_delta = 0
 
         if event.type == pygame.KEYDOWN:
