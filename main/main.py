@@ -9,6 +9,13 @@ pygame.init()
 # Set initial screen size
 screenX = 1920
 screenY = 1080
+
+VSync = False
+debug = False
+
+if VSync:
+    pygame.time.Clock.tick = 60
+
 screen = pygame.display.set_mode((screenX, screenY))
 
 # Title and icons and stuff
@@ -58,16 +65,20 @@ while RUNNING:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE or event.key == pygame.K_w:
                 jump()
+            if event.key == pygame.K_F1:
+                debug = not debug
     
     if playerX_pos < screenX or playerX_pos > 0: # checks player is out of bounds
         playerX_pos += playerX_pos_delta
         playerY_pos += playerY_pos_delta
-        pos_update = str(("PlayerX:", playerX_pos, "w/ delta", playerX_pos_delta))
-        img = font.render(pos_update, True, (0, 0, 255))
-        """        print("PlayerX:", playerX_pos, "w/ delta", playerX_pos_delta)
-        print("PlayerY:", playerY_pos, "w/ delta", playerY_pos_delta)"""
+    
+    debug_txt = font.render("", True, (0,0,0))
+
+    if debug:
+        debug_txt = font.render(str(playerX_pos), True, (0, 0, 255))
+
 
     player(playerX_pos, playerY_pos)
 
-    screen.blit(img, (20, 20))
+    screen.blit(debug_txt, (0, 0))
     pygame.display.update()
