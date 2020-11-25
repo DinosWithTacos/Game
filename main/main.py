@@ -18,20 +18,52 @@ pygame.display.set_icon(icon)
 # Player set up
 playerX = 370
 playerY = 480
+playerX_delta = 0
+playerY_delta = 0
+playerSpeed = 0.1
 playerImg = icon
 
-def player():
-    screen.blit(icon, (playerX, playerY))
+def player(x, y):
+    screen.blit(icon, (x, y))
 
 # Game loop
 RUNNING = True
 while RUNNING:
+
+    screen.fill((0, 0, 0)) # Back ground color.
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             RUNNING = False
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                playerY_delta -= playerSpeed
+            if event.key  == pygame.K_s:
+                playerY_delta += playerSpeed
+            if event.key == pygame.K_a:
+                playerX_delta -= playerSpeed
+            if event.key == pygame.K_d:
+                playerX_delta += playerSpeed
 
-    screen.fill((180, 180, 180))
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_w:
+                playerY_delta = 0
+            if event.key  == pygame.K_s:
+                playerY_delta = 0
+            if event.key == pygame.K_a:
+                playerX_delta = 0
+            if event.key == pygame.K_d:
+                playerX_delta = 0
 
-    player()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                playerX = 370
+                playerY = 480
+    
+    playerX += playerX_delta
+    playerY += playerY_delta
+    
+
+    player(playerX, playerY)
     pygame.display.update()
