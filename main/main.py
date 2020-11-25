@@ -34,12 +34,13 @@ playerImg = pygame.image.load('images\daniel.png')
 
 font = pygame.font.SysFont(None, 24)
 
-
 def player(x, y):
     screen.blit(icon, (x, y))
 
 def jump():
     print("i jumped")
+
+
 
 # Game loop
 RUNNING = True
