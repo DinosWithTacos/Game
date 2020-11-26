@@ -28,8 +28,11 @@ playerImg = scale(pygame.image.load('images\daniel.png'), 100)
 evil_fuck_img = scale(pygame.image.load("images\weathin.png"), 100)
 
 font = pygame.font.SysFont(None, 24)
+
+
 def player(x, y):
-    screen.blit(playerImg, (x, y))
+    # screen.blit(playerImg, (x, y))
+    pass
 
 
 def jump():
@@ -38,7 +41,11 @@ def jump():
 # Weathen images
 
 
-weathen = spritesheet.spritesheet(scale(pygame.image.load("images\Weathen Spritesheet.png"), 800), 5, 5)
+weathen = spritesheet.spritesheet(
+    scale(pygame.image.load("images\Weathen Spritesheet.png"), 800), 5, 5)
+
+player_img = spritesheet.spritesheet(
+    scale(pygame.image.load("images\wipsprite (1).png"), 500), 3, 2)
 
 CENTER_HANDLE = 4
 
@@ -46,7 +53,8 @@ INDEX = 0
 
 playerX_pos = cons.screenX / 2
 playerY_pos = cons.screenY - (cons.screenY * 1 / 5)
-playerX_pos_delta = 0
+playerXL_pos_delta = 0
+playerXR_pos_delta = 0
 playerY_pos_delta = 0
 
 # Game loop
@@ -65,13 +73,15 @@ while RUNNING:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
-                playerX_pos_delta -= cons.playerSpeed
+                playerXL_pos_delta -= cons.playerSpeed
             if event.key == pygame.K_d:
-                playerX_pos_delta += cons.playerSpeed
+                playerXR_pos_delta += cons.playerSpeed
 
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_a or event.key == pygame.K_d:
-                playerX_pos_delta = 0
+            if event.key == pygame.K_a:
+                playerXL_pos_delta = 0
+            if event.key == pygame.K_d:
+                playerXR_pos_delta = 0
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE or event.key == pygame.K_w:
@@ -79,7 +89,8 @@ while RUNNING:
             if event.key == pygame.K_F1:
                 DEBUG = not DEBUG
 
-    playerX_pos += playerX_pos_delta
+    playerX_pos += playerXL_pos_delta
+    playerX_pos += playerXR_pos_delta
     playerY_pos += playerY_pos_delta
 
     debug_txt = font.render("", True, (0, 0, 0))
@@ -88,8 +99,10 @@ while RUNNING:
         debug_txt = font.render(str(playerX_pos), True, (0, 0, 255))
 
     # weathen.draw(screen, INDEX % weathen.totalCellCount,
-    #             100, 100, CENTER_HANDLE)  # Draws in weathen
+    #             100, 100, 1, True, CENTER_HANDLE)  # Draws in weathen
 
+    player_img.draw(screen, INDEX % player_img.totalCellCount,
+                    playerX_pos, playerY_pos, 5, INDEX, CENTER_HANDLE)
     INDEX += 1
 
     player(playerX_pos, playerY_pos)  # Places our player
