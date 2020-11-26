@@ -1,6 +1,5 @@
 import pygame
 import sys
-from pygame_functions import *
 import cons
 import spritesheet
 
@@ -29,10 +28,6 @@ playerImg = scale(pygame.image.load('images\daniel.png'), 100)
 evil_fuck_img = scale(pygame.image.load("images\weathin.png"), 100)
 
 font = pygame.font.SysFont(None, 24)
-
-weathen = makeSprite("images\Weathen Spritesheet.png", 25)
-
-
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
@@ -40,23 +35,10 @@ def player(x, y):
 def jump():
     print("i jumped")
 
-
-def weathen_ach():
-    nextFrame = clock()
-    frame = 0
-    while True:
-        print(frame)
-        if clock() > nextFrame:
-            frame = (frame + 1) % 5
-            nextFrame += 50
-
-    changeSpriteImage(weathen, 0 + 5 + frame)
-
 # Weathen images
 
 
-# weathen = spritesheet.spritesheet(
-#    scale(pygame.image.load("images\Weathen Spritesheet.png"), 800), 5, 5)
+weathen = spritesheet.spritesheet(scale(pygame.image.load("images\Weathen Spritesheet.png"), 800), 5, 5)
 
 CENTER_HANDLE = 4
 
@@ -71,7 +53,9 @@ playerY_pos_delta = 0
 DEBUG = False
 RUNNING = True
 
+
 while RUNNING:
+
     screen.fill(cons.LGREY)  # Back ground color
 
     for event in pygame.event.get():
@@ -85,9 +69,6 @@ while RUNNING:
             if event.key == pygame.K_d:
                 playerX_pos_delta += cons.playerSpeed
 
-        if keyPressed('l'):
-            weathen_ach()
-
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a or event.key == pygame.K_d:
                 playerX_pos_delta = 0
@@ -97,8 +78,6 @@ while RUNNING:
                 jump()
             if event.key == pygame.K_F1:
                 DEBUG = not DEBUG
-            if event.key == pygame.K_F2:
-                weathen_ach()
 
     playerX_pos += playerX_pos_delta
     playerY_pos += playerY_pos_delta

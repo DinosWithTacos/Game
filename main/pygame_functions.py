@@ -310,7 +310,8 @@ def loadImage(fileName, useColorKey=False):
         # Return the image
         return image
     else:
-        raise Exception("Error loading image: " + fileName + " - Check filename and path?")
+        raise Exception("Error loading image: " + fileName +
+                        " - Check filename and path?")
 
 
 def screenSize(sizex, sizey, xpos=None, ypos=None, fullscreen=False):
