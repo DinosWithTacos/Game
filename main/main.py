@@ -1,13 +1,14 @@
-import pygame, sys
+import pygame
+import sys
 
-import cons, spritesheet
+import cons
+import spritesheet
 
 # Initialize pygame and general settings
+CLOCK = pygame.time.Clock()
 pygame.init()
 screen = pygame.display.set_mode((cons.screenX, cons.screenY))
 pygame.display.set_icon(cons.icon)
-
-DEBUG = False
 
 
 def scale(sur, sclar):
@@ -22,6 +23,7 @@ def scale(sur, sclar):
     """
     return pygame.transform.scale(sur, (sclar, sclar))
 
+
 playerImg = scale(pygame.image.load('images\daniel.png'), 100)
 
 evil_fuck_img = scale(pygame.image.load("images\weathin.png"), 100)
@@ -32,14 +34,14 @@ font = pygame.font.SysFont(None, 24)
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
+
 def jump():
     print("i jumped")
 
-def weathen(x, y):
-    screen.blit(evil_fuck_img, (x, y))
 
 # Weathen images
-weathen = spritesheet.spritesheet(scale(pygame.image.load("images\Weathen Spritesheet.png"), 800), 5, 5) 
+weathen = spritesheet.spritesheet(
+    scale(pygame.image.load("images\Weathen Spritesheet.png"), 800), 5, 5)
 
 CENTER_HANDLE = 4
 
@@ -51,10 +53,11 @@ playerX_pos_delta = 0
 playerY_pos_delta = 0
 
 # Game loop
+DEBUG = False
 RUNNING = True
 
 while RUNNING:
-    screen.fill((200, 200, 200))  # Back ground color
+    screen.fill(cons.LGREY)  # Back ground color
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # If quit is pressed in the upper left
@@ -82,13 +85,18 @@ while RUNNING:
 
     debug_txt = font.render("", True, (0, 0, 0))
 
-    if DEBUG: # if debug is enabled
+    if DEBUG:  # if debug is enabled
         debug_txt = font.render(str(playerX_pos), True, (0, 0, 255))
 
-    weathen.draw(screen, INDEX % weathen.totalCellCount, 100, 100, CENTER_HANDLE) # Draws in weathen
+    weathen.draw(screen, INDEX % weathen.totalCellCount,
+                 100, 100, CENTER_HANDLE)  # Draws in weathen
+
     INDEX += 1
 
     player(playerX_pos, playerY_pos)  # Places our player
 
-    screen.blit(debug_txt, (900, 0)) # Places debug txt
-    pygame.display.update() # updates the screen
+    if cons.VSYNC:
+        CLOCK.tick(cons.FPS)
+
+    screen.blit(debug_txt, (900, 0))  # Places debug txt
+    pygame.display.update()  # updates the screen

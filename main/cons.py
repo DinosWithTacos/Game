@@ -3,8 +3,8 @@ import pygame
 # Display information
 screenX = 1920
 screenY = 1080
-VSync = False
-FPS = 60
+VSYNC = True
+FPS = 30
 
 HW, HH = screenX / 2, screenY / 2
 AREA = screenX * screenY
@@ -23,3 +23,4 @@ icon = pygame.image.load('images\daniel.png')
 
 # Colors
 BLACK = (0,0,0)
+LGREY = (200, 200, 200)

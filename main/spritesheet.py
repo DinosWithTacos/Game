@@ -1,5 +1,3 @@
-import pygame
-
 class spritesheet:
     def __init__(self, surface, cols, rows):
         self.sheet = surface
