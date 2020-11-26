@@ -63,7 +63,7 @@ CENTER_HANDLE = 4
 INDEX = 0
 
 playerX_pos = cons.screenX / 2
-playerY_pos = 900
+playerY_pos = cons.screenY - (cons.screenY * 1 / 5)
 playerX_pos_delta = 0
 playerY_pos_delta = 0
 
@@ -108,7 +108,7 @@ while RUNNING:
     if DEBUG:  # if debug is enabled
         debug_txt = font.render(str(playerX_pos), True, (0, 0, 255))
 
-    #weathen.draw(screen, INDEX % weathen.totalCellCount,
+    # weathen.draw(screen, INDEX % weathen.totalCellCount,
     #             100, 100, CENTER_HANDLE)  # Draws in weathen
 
     INDEX += 1
