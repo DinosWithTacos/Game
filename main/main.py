@@ -1,40 +1,26 @@
 import pygame, sys
-"""
-Uhh.
-"""
 
-# Initialize pygame
+import cons, spritesheet
+
+# Initialize pygame and general settings
 pygame.init()
-
-# Set initial screen size
-screenX = 1920
-screenY = 1080
-HW, HH = screenX / 2, screenY / 2
-AREA = screenX * screenY
+screen = pygame.display.set_mode((cons.screenX, cons.screenY))
+pygame.display.set_icon(cons.icon)
 
 DEBUG = False
 
 
-screen = pygame.display.set_mode((screenX, screenY))
+def scale(sur, sclar):
+    """Changes cale of pygame.surface objects
 
-# Title and icons and stuff
-pygame.display.set_caption("This is a test currently.")
-icon = pygame.image.load('images\daniel.png')
+    Args:
+        Sur (pygame.surface): PyGame surface you want to change scale of
+        Sclar (int): Scale of object you want to affect by
 
-pygame.display.set_icon(icon)
-
-# Player set up, starting pos and velocity
-playerX_pos = screenX / 2
-playerY_pos = 900
-playerX_pos_delta = 0
-playerY_pos_delta = 0
-playerSpeed = 5
-
-DEBUG = False
-
-
-def scale(Sur, Sclar):
-    return pygame.transform.scale(Sur, (Sclar, Sclar))
+    Returns:
+        pygame.surface: Scaled pygame.surface
+    """
+    return pygame.transform.scale(sur, (sclar, sclar))
 
 playerImg = scale(pygame.image.load('images\daniel.png'), 100)
 
@@ -46,56 +32,29 @@ font = pygame.font.SysFont(None, 24)
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
-
 def jump():
     print("i jumped")
-
 
 def weathen(x, y):
     screen.blit(evil_fuck_img, (x, y))
 
-class spritesheet:
-    def __init__(self, filename, cols, rows):
-        self.sheet = pygame.image.load(filename)
-
-        self.cols = cols
-        self.rows = rows
-        self.totalCellCount = cols * rows
-
-        self.rect = self.sheet.get_rect()
-        w = self.cellWidth = self.rect.width / cols
-        h = self.cellHeight = self.rect.height / rows
-
-        hw, hh = self.cellCenter = (w/2, h/2)
-
-        self.cells = list([(index % cols * w, index // cols * h)
-                           for index in range(self.totalCellCount)])
-        self.handle = list([
-            (0, 0), (-hw, 0), (-w, 0),
-            (0, -hh), (-hw, -hh), (-w, -hh),
-            (0, -h), (-hw, -h), (-w, -h)
-        ])
-
-    def draw(self, surface, cellIndex, x, y, handle=0):
-        surface.blit(self.sheet, (x + self.handle[handle][0], y + self.handle[handle][1]), self.cells[cellIndex])
-
-
-# s = spritesheet("images\Weathen Spritesheet.png", 5, 5)
+# Weathen images
+weathen = spritesheet.spritesheet(scale(pygame.image.load("images\Weathen Spritesheet.png"), 800), 5, 5) 
 
 CENTER_HANDLE = 4
 
 INDEX = 0
 
+playerX_pos = cons.screenX / 2
+playerY_pos = 900
+playerX_pos_delta = 0
+playerY_pos_delta = 0
+
 # Game loop
 RUNNING = True
 
 while RUNNING:
-    screen.fill((200, 200, 200))  # Back ground color.
-
-    # s.draw(screen, INDEX % s.totalCellCount, HW, HH, CENTER_HANDLE)
-    INDEX += 1
-
-
+    screen.fill((200, 200, 200))  # Back ground color
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # If quit is pressed in the upper left
@@ -104,9 +63,9 @@ while RUNNING:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
-                playerX_pos_delta -= playerSpeed
+                playerX_pos_delta -= cons.playerSpeed
             if event.key == pygame.K_d:
-                playerX_pos_delta += playerSpeed
+                playerX_pos_delta += cons.playerSpeed
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a or event.key == pygame.K_d:
@@ -123,11 +82,13 @@ while RUNNING:
 
     debug_txt = font.render("", True, (0, 0, 0))
 
-    if DEBUG:
+    if DEBUG: # if debug is enabled
         debug_txt = font.render(str(playerX_pos), True, (0, 0, 255))
 
-    player(playerX_pos, playerY_pos)  # Places our player
-    weathen(20, 20)
+    weathen.draw(screen, INDEX % weathen.totalCellCount, 100, 100, CENTER_HANDLE) # Draws in weathen
+    INDEX += 1
 
-    screen.blit(debug_txt, (900, 0))
-    pygame.display.update()
+    player(playerX_pos, playerY_pos)  # Places our player
+
+    screen.blit(debug_txt, (900, 0)) # Places debug txt
+    pygame.display.update() # updates the screen
