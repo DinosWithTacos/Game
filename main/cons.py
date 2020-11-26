@@ -4,14 +4,14 @@ import pygame
 screenX = 1920
 screenY = 1080
 VSYNC = True
-FPS = 30
+FPS = 60
 
 HW, HH = screenX / 2, screenY / 2
 AREA = screenX * screenY
 
 
 # Player Settings
-playerSpeed = 5
+playerSpeed = 15
 
 
 # Images
@@ -21,4 +21,7 @@ icon = pygame.image.load('images\daniel.png')
 
 # Colors
 BLACK = (0, 0, 0)
+DGREY = (60, 60, 60)
+GREY = (125, 125, 125)
 LGREY = (200, 200, 200)
+WHITE = (255, 255, 255)
