@@ -14,13 +14,11 @@ AREA = screenX * screenY
 playerSpeed = 5
 
 
-
 # Images
 pygame.display.set_caption("This is a test currently.")
 icon = pygame.image.load('images\daniel.png')
 
 
-
 # Colors
-BLACK = (0,0,0)
+BLACK = (0, 0, 0)
 LGREY = (200, 200, 200)
