@@ -4,14 +4,16 @@ import pygame
 screenX = 1920
 screenY = 1080
 VSYNC = True
-FPS = 15
+FPS = 60
+
+animationFPS = 10
 
 HW, HH = screenX / 2, screenY / 2
 AREA = screenX * screenY
 
 
 # Player Settings
-playerSpeed = 15
+playerSpeed = 10
 
 
 # Images

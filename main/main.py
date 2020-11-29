@@ -38,6 +38,12 @@ def player(x, y):
 def jump():
     print("i jumped")
 
+
+def quit_():
+    print("So long gay Bowser")
+    pygame.quit()
+    sys.exit()
+
 # Weathen images
 
 
@@ -50,6 +56,8 @@ player_img = spritesheet.spritesheet(
 CENTER_HANDLE = 4
 
 INDEX = 0
+animationINDEX = 0
+isMoving = False
 
 playerX_pos = cons.screenX / 2
 playerY_pos = cons.screenY - (cons.screenY * 1 / 5)
@@ -68,19 +76,24 @@ while RUNNING:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # If quit is pressed in the upper left
-            print("So long gay Bowser")
-            pygame.quit()
-            sys.exit()
+            quit_()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
                 playerXL_pos_delta -= cons.playerSpeed
             if event.key == pygame.K_d:
+                isMoving = True
+                while isMoving:
+                    player_img.draw(screen, animationINDEX % player_img.totalCellCount,
+                                    playerX_pos, playerY_pos, CENTER_HANDLE)
                 playerXR_pos_delta += cons.playerSpeed
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 playerXL_pos_delta = 0
             if event.key == pygame.K_d:
+                isMoving = False
+                player_img.draw(screen, 1,
+                                playerX_pos, playerY_pos, CENTER_HANDLE)
                 playerXR_pos_delta = 0
 
         if event.type == pygame.KEYDOWN:
@@ -88,6 +101,8 @@ while RUNNING:
                 jump()
             if event.key == pygame.K_F1:
                 DEBUG = not DEBUG
+            if event.key == pygame.K_ESCAPE:
+                quit_()
 
     playerX_pos += playerXL_pos_delta
     playerX_pos += playerXR_pos_delta
@@ -101,9 +116,9 @@ while RUNNING:
     # weathen.draw(screen, INDEX % weathen.totalCellCount,
     #             100, 100, 1, True, CENTER_HANDLE)  # Draws in weathen
 
-    player_img.draw(screen, INDEX % player_img.totalCellCount,
-                    playerX_pos, playerY_pos, 5, INDEX, CENTER_HANDLE)
     INDEX += 1
+    if INDEX % cons.animationFPS == 0:
+        animationINDEX += 1
 
     player(playerX_pos, playerY_pos)  # Places our player
 
