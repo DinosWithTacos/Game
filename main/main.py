@@ -50,7 +50,7 @@ def quit_():
 weathen = spritesheet.spritesheet(
     scale(pygame.image.load("images\Weathen Spritesheet.png"), 800), 5, 5)
 
-player_img = spritesheet.spritesheet(
+player_runnning_img = spritesheet.spritesheet(
     scale(pygame.image.load("images\wipsprite (1).png"), 500), 3, 2)
 
 CENTER_HANDLE = 4
@@ -65,12 +65,17 @@ playerXL_pos_delta = 0
 playerXR_pos_delta = 0
 playerY_pos_delta = 0
 
+last_drawn_index = animationINDEX % player_runnning_img.totalCellCount
+
+
 # Game loop
-DEBUG = False
 RUNNING = True
 
 
 while RUNNING:
+
+    player_runnning_img.draw(screen, last_drawn_index,
+                             playerX_pos, playerY_pos, CENTER_HANDLE)
 
     screen.fill(cons.LGREY)  # Back ground color
 
@@ -81,26 +86,22 @@ while RUNNING:
             if event.key == pygame.K_a:
                 playerXL_pos_delta -= cons.playerSpeed
             if event.key == pygame.K_d:
-                isMoving = True
-                while isMoving:
-                    player_img.draw(screen, animationINDEX % player_img.totalCellCount,
-                                    playerX_pos, playerY_pos, CENTER_HANDLE)
+                player_runnning_img.draw(screen, last_drawn_index,
+                                         playerX_pos, playerY_pos, CENTER_HANDLE)
                 playerXR_pos_delta += cons.playerSpeed
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 playerXL_pos_delta = 0
             if event.key == pygame.K_d:
-                isMoving = False
-                player_img.draw(screen, 1,
-                                playerX_pos, playerY_pos, CENTER_HANDLE)
+                last_drawn_index = animationINDEX % player_runnning_img.totalCellCount
                 playerXR_pos_delta = 0
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE or event.key == pygame.K_w:
                 jump()
             if event.key == pygame.K_F1:
-                DEBUG = not DEBUG
+                cons.DEBUG = not cons.DEBUG
             if event.key == pygame.K_ESCAPE:
                 quit_()
 
@@ -108,10 +109,16 @@ while RUNNING:
     playerX_pos += playerXR_pos_delta
     playerY_pos += playerY_pos_delta
 
+    total_player_delta = playerXL_pos_delta + \
+        playerXR_pos_delta + playerY_pos_delta
+
     debug_txt = font.render("", True, (0, 0, 0))
 
-    if DEBUG:  # if debug is enabled
-        debug_txt = font.render(str(playerX_pos), True, (0, 0, 255))
+    debug_info = str((playerX_pos, round(CLOCK.get_fps(), 3)))
+    debug_info = [playerX_pos, total_player_delta, round(CLOCK.get_fps(), 3), last_drawn_index]
+
+    if cons.DEBUG:  # if debug is enabled
+        debug_txt = font.render(str(debug_info), True, (0, 0, 255))
 
     # weathen.draw(screen, INDEX % weathen.totalCellCount,
     #             100, 100, 1, True, CENTER_HANDLE)  # Draws in weathen
